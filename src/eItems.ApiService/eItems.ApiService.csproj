@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../modules/eItems.Catalog/eItems.Catalog.csproj" />
     <ProjectReference Include="..\eItems.ServiceDefaults\eItems.ServiceDefaults.csproj" />
   </ItemGroup>
 
