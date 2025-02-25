@@ -6,3 +6,4 @@ global using Microsoft.EntityFrameworkCore;
 global using eItems.Shared.DDD;
 global using eItems.Catalog.Tenants.Model;
 global using eItems.Catalog.Data;
+global using Microsoft.EntityFrameworkCore.Design;

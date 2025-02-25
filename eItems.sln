@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{210F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eItems.Catalog", "src\modules\eItems.Catalog\eItems.Catalog.csproj", "{6AC3C805-31C6-421F-8152-910AF2A059B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{9B0DCA94-E3BF-4D59-B427-F385272B6C05}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eItems.Shared", "src\modules\eItems.Shared\eItems.Shared.csproj", "{453A58AC-EAB1-45CB-AAAC-2254DA248604}"
 EndProject
 Global
