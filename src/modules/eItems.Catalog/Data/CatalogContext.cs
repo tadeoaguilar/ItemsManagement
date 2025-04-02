@@ -9,16 +9,21 @@ namespace eItems.Catalog.Data
         public CatalogContext(DbContextOptions<CatalogContext> options)
             : base(options) { }
 
-        public DbSet<Tenant> Tenant => Set<Tenant>();
-        
-   /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DbSet<Tenant> Tenant => Set<Tenant>();                
+        public DbSet<Company> Company => Set<Company>();
+        public DbSet<Organization> Organization => Set<Organization>();
+        public DbSet<Location> Location => Set<Location>();
+        public DbSet<Asset> Asset => Set<Asset>();
+        public DbSet<License> License => Set<License>();
+        public DbSet<Manufacturer> Manufacturer => Set<Manufacturer>();
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
     {
 
         
-        optionsBuilder.UseNpgsql( "Host=localhost:53288;Database=eItems;Username=postgres;Password=C~u3zS1rB429CK(EkrvwbW");
+        optionsBuilder.UseNpgsql( "Host=localhost:59001;Database=eItems;Username=postgres;Password=f7~SefwuNfdp*+DtEP_5d7");
         //optionsBuilder.UseNpgsql("eItems");
-    }*/
+    }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

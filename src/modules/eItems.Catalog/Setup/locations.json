@@ -1,0 +1,18 @@
+[   {
+    "Id": "f864e264-473b-40e2-819c-0315c9d2e67e",   
+    "OrganizationID": "9ab43489-fb89-4ab6-83d5-46faa6a88d9f",
+   
+    "LocationCD": "LOC001",
+    "Description": "Location 1",
+    "Active": true
+    
+    },
+    {
+   
+    "Id": "43665ee7-3f6f-420c-b883-e72e572beb56",
+    "OrganizationID": "9ab43489-fb89-4ab6-83d5-46faa6a88d9f",
+    
+    "LocationCD": "LOC002",
+    "Description": "Location 2",
+    "Active": false}
+]

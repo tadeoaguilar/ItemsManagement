@@ -1,0 +1,21 @@
+[{"Id" :"cf055113-2ae3-42c3-b25c-ba6fcc116e3d",
+"TenantName"  :"Prueba1",
+"TenantCD" :"TENEANTTEST",
+"Description": "Tenant de prueba",
+"StartDate" : "2019-01-06T17:16:40Z",
+"EndDate": "2019-01-06T17:16:40Z",
+"LicenseID": "fb6f838c-49ba-43f1-988a-cd039dbbc8a9",
+"Active" : true
+},
+{"Id" :"1eab5ee6-e5ee-48c9-b7dc-5b4f9be059ce",
+"TenantName"  :"Prueba2",
+"TenantCD" :"TENEANTTEST2",
+"Description": "Tenant de prueba",
+"StartDate" : "2019-01-06T17:16:40Z",
+"EndDate": "2019-01-06T17:16:40Z",
+"LicenseID": "51731498-c9b3-42e7-be28-050b1bdd5d25",
+"Active" : true
+}]
+
+
+

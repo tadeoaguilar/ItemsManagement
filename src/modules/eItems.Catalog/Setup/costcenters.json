@@ -1,0 +1,14 @@
+[{"Id" :"fd32eeb6-19bf-441c-b534-959bf01dc2ca",
+"CostCenterCD" :"US001",
+"Description": "Cost Center 1",
+"Active": true
+
+},
+{"Id" :"b70bdd8b-9fef-4e3d-b92d-504203c51692",
+"CostCenterCD" :"US002",
+"Description": "Cost Center 2",
+"Active": true
+
+}
+
+]

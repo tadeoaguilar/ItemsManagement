@@ -1,0 +1,10 @@
+[{"Id" :"fb6f838c-49ba-43f1-988a-cd039dbbc8a9",
+"LicenseCD" :"LICTEST",
+"Description": "Licencia de prueba",
+"Active" : true
+},
+{"Id" :"51731498-c9b3-42e7-be28-050b1bdd5d25",
+"LicenseCD" :"LICTEST2",
+"Description": "Licencia de prueba2",
+"Active" : true
+}]

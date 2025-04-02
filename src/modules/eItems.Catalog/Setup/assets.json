@@ -1,0 +1,22 @@
+[   {
+   
+    "Id": "8fe0c663-d127-4ed2-8f2c-a4bb0775966a",
+    "LocationID": "f864e264-473b-40e2-819c-0315c9d2e67e",
+    "ManufacturerID": "ccc91b68-74ae-4731-a983-5139fd827f6a",
+    "CostCenterID": "fd32eeb6-19bf-441c-b534-959bf01dc2ca",
+    "AssetCD": "ASSET001",
+    "SubNumber": 1,
+    "Description": "First asset",
+    "Active": true
+    
+    },
+    {
+    "Id": "0437d5d6-91cd-4392-8a5d-2bd987522f68",
+    "LocationID": "43665ee7-3f6f-420c-b883-e72e572beb56",
+    "ManufacturerID": "a94534ba-d389-437f-9156-71cd48643cd0",
+    "CostCenterID": "b70bdd8b-9fef-4e3d-b92d-504203c51692",
+    "AssetCD": "ASSET002",
+    "SubNumber": 1,
+    "Description": "Second asset",
+    "Active": false}
+]

@@ -1,0 +1,18 @@
+[   {
+   
+    
+    "Id": "9ab43489-fb89-4ab6-83d5-46faa6a88d9f",
+    "CompanyID": "d3b07384-d9a0-4f5b-8a2b-1d2c6e8f7e3a",
+    "CompanyCD": "COMP001",
+    "Description": "First organization",
+    "Active": true
+    
+    },
+    {
+   
+    "Id": "95868f00-3c48-49f7-91aa-995a7719007f",
+    "CompanyID": "e4b07384-d9a0-4f5b-8a2b-1d2c6e8f7e3b",
+    "CompanyCD": "COMP002",
+    "Description": "Second organization",
+    "Active": false}
+]

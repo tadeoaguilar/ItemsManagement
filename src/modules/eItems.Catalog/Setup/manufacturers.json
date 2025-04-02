@@ -1,0 +1,17 @@
+[   {
+    "Id": "ccc91b68-74ae-4731-a983-5139fd827f6a",   
+    
+    "ManufacturerCD": "MAN001",
+    "Description": "Manufacturer 1",
+    "Active": true
+    
+    },
+    {
+   
+    "Id": "a94534ba-d389-437f-9156-71cd48643cd0",
+    
+    
+    "ManufacturerCD": "MAN002",
+    "Description": "Manufacturer 2",
+    "Active": false}
+]

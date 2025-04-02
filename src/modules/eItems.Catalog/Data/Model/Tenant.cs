@@ -1,5 +1,5 @@
 ﻿
-namespace eItems.Catalog.Tenants.Model
+namespace eItems.Catalog.Data.Model
 {
     public class Tenant : Entity<Guid>
     {
