@@ -1,7 +1,9 @@
+using eItems.Catalog.Data;
+using eItems.Shared.Data.Seed;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
+using  eItems.Shared.Data;
 namespace eItems.Catalog;
 
 public static class CatalogModule
@@ -16,6 +18,15 @@ public static IServiceCollection AddCatalogModule(this IServiceCollection servic
         // Application Use Case services       
 
         // Data - Infrastructure services
+
+       /* services.AddDbContext<CatalogContext>((sp, options) =>
+        {
+            
+            options.UseNpgsql("eItems");
+        });*/
+
+        
+        services.AddScoped<IDataSeeder, CatalogDataSeeder>();
       
         return services;
     }
@@ -30,7 +41,7 @@ public static IServiceCollection AddCatalogModule(this IServiceCollection servic
 
         // 3. Use Data - Infrastructure services  
        // app.UseMigration<CatalogContext>();
-
+     app.UseMigration<CatalogContext>();
         return app;
     }
 }

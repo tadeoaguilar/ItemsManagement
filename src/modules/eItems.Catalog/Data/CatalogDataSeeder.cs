@@ -1,21 +1,20 @@
-using System;
+
 using System.Text.Json;
-using Microsoft.Extensions.Hosting;
+using eItems.Shared.Data.Seed;
 
-namespace eItems.Catalog.Extensions;
-
-public static class Extensions
+namespace eItems.Catalog.Data;
+public class CatalogDataSeeder(CatalogContext context)
+    : IDataSeeder
 {
- public static void AddApplicationServices(this IHostApplicationBuilder builder)
- {
-                                                        
-            builder.AddNpgsqlDbContext<CatalogContext>(connectionName: "CatalogDB", configureDbContextOptions: dbContextOptionsBuilder => 
-            {
-                
-                dbContextOptionsBuilder.UseSeeding((context, _) =>
-                {
-                   
+    public async Task SeedAllAsync()
+    {
+                           try{                       // Enable detailed errors and logging
+
+                    await context.Database.EnsureCreatedAsync();
                     var licenseJsonPath = Path.Combine(AppContext.BaseDirectory, "Setup", "licenses.json");
+                    Console.WriteLine($"Looking for seed data at: {licenseJsonPath}");
+                    Console.WriteLine($"Setup folder path: {licenseJsonPath}");
+                    Console.WriteLine($"Setup folder exists: {Directory.Exists(licenseJsonPath)}");
                     var licenseData = File.ReadAllText(licenseJsonPath);
                     var licenses = JsonSerializer.Deserialize<List<License>>(licenseData);
                     var tenantJsonPath = Path.Combine(AppContext.BaseDirectory, "Setup", "tenants.json");
@@ -53,63 +52,62 @@ public static class Extensions
                     if (licenses != null)
                     {
                         context.Set<License>().RemoveRange(context.Set<License>());
-                        context.Set<License>().AddRange(licenses);
-                        context.SaveChanges();
+                        await context.Set<License>().AddRangeAsync(licenses);
+                        await context.SaveChangesAsync();
                     }
                     if (tenants != null)
                     {
                         context.Set<Tenant>().RemoveRange(context.Set<Tenant>());
-                        context.Set<Tenant>().AddRange(tenants);
-                        context.SaveChanges();
+                        await context.Set<Tenant>().AddRangeAsync(tenants);
+                        await context.SaveChangesAsync();
                     }
                     if (countries != null)
                     {
                         context.Set<Country>().RemoveRange(context.Set<Country>());
-                        context.Set<Country>().AddRange(countries);
-                        context.SaveChanges();
+                        await context.Set<Country>().AddRangeAsync(countries);
+                        await context.SaveChangesAsync();
                     }
                     if (companies != null)
                     {
                         context.Set<Company>().RemoveRange(context.Set<Company>());
-                        context.Set<Company>().AddRange(companies);
-                        context.SaveChanges();
+                        await context.Set<Company>().AddRangeAsync(companies);
+                        await context.SaveChangesAsync();
                     }
                    if (organizations != null)
                     {
                         context.Set<Organization>().RemoveRange(context.Set<Organization>());
-                        context.Set<Organization>().AddRange(organizations);
-                        context.SaveChanges();
+                        await context.Set<Organization>().AddRangeAsync(organizations);
+                        await context.SaveChangesAsync();
                     }
                    if (locations != null)
                     {
                         context.Set<Location>().RemoveRange(context.Set<Location>());
-                        context.Set<Location>().AddRange(locations);
-                        context.SaveChanges();
+                        await context.Set<Location>().AddRangeAsync(locations);
+                        await context.SaveChangesAsync();
                     }
                     if (manufacturers != null)
                     {
                         context.Set<Manufacturer>().RemoveRange(context.Set<Manufacturer>());
-                        context.Set<Manufacturer>().AddRange(manufacturers);
-                        context.SaveChanges();
+                        await context.Set<Manufacturer>().AddRangeAsync(manufacturers);
+                        await context.SaveChangesAsync();
                     }
                     if (costcenters != null)
                     {
                             context.Set<CostCenter>().RemoveRange(context.Set<CostCenter>());
-                            context.Set<CostCenter>().AddRange(costcenters);
-                            context.SaveChanges();
+                            await context.Set<CostCenter>().AddRangeAsync(costcenters);
+                            await context.SaveChangesAsync();context.SaveChanges();
                     }
                     if (assets != null)
                     {
                             context.Set<Asset>().RemoveRange(context.Set<Asset>());
-                            context.Set<Asset>().AddRange(assets);
-                            context.SaveChanges();
+                            await context.Set<Asset>().AddRangeAsync(assets);
+                            await context.SaveChangesAsync();
                     }
-                    
-
-
-                });
-            });
-            
-        
-        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error seeding database: {ex.Message}");
+                        throw;
+                    }
+    }
 }

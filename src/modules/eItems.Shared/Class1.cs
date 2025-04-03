@@ -1,6 +1,0 @@
-﻿namespace eItems.Shared;
-
-public class Class1
-{
-
-}

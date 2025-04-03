@@ -7,8 +7,11 @@ var postgres = builder.AddPostgres("postgres").WithPgAdmin()
         .WithDataVolume(isReadOnly: false);
 var postgresdb = postgres.AddDatabase("eItems");
 
+
+
 var apiService = builder.AddProject<Projects.eItems_ApiService>("apiservice")
-                    .WithReference(postgresdb);
+                    .WithReference(postgresdb)
+                    .WaitFor(postgresdb);
 
 
 // After adding all resources, run the app...
