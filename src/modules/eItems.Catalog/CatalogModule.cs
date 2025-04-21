@@ -42,7 +42,9 @@ public static IServiceCollection AddCatalogModule(this IServiceCollection servic
 
         // 3. Use Data - Infrastructure services  
        // app.UseMigration<CatalogContext>();
+    
      app.UseMigration<CatalogContext>();
+   
         return app;
     }
 }
