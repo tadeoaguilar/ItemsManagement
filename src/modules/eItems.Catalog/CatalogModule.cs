@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using  eItems.Shared.Data;
+using eItems.Catalog.Data.Seed;
 namespace eItems.Catalog;
 
 public static class CatalogModule

@@ -16,12 +16,12 @@ namespace eItems.Catalog.Data
         public DbSet<Asset> Asset => Set<Asset>();
         public DbSet<License> License => Set<License>();
         public DbSet<Manufacturer> Manufacturer => Set<Manufacturer>();
-  /*  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+  /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
     {
 
         
-        optionsBuilder.UseNpgsql( "Host=localhost:59001;Database=eItems;Username=postgres;Password=f7~SefwuNfdp*+DtEP_5d7");
+        optionsBuilder.UseNpgsql( "Host=localhost:56764;Database=eItems;Username=postgres;Password=f7~SefwuNfdp*+DtEP_5d7");
         //optionsBuilder.UseNpgsql("eItems");
     }*/
 

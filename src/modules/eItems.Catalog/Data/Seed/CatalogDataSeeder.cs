@@ -2,7 +2,7 @@
 using System.Text.Json;
 using eItems.Shared.Data.Seed;
 
-namespace eItems.Catalog.Data;
+namespace eItems.Catalog.Data.Seed;
 public class CatalogDataSeeder(CatalogContext context)
     : IDataSeeder
 {

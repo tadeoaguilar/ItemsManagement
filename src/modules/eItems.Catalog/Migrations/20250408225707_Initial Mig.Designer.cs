@@ -12,8 +12,8 @@ using eItems.Catalog.Data;
 namespace eItems.Catalog.Migrations
 {
     [DbContext(typeof(CatalogContext))]
-    [Migration("20250402204742_initial01")]
-    partial class initial01
+    [Migration("20250408225707_Initial Mig")]
+    partial class InitialMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,10 @@ namespace eItems.Catalog.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("AssetCD")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("AssetImage")
                         .IsRequired()
                         .HasColumnType("text");
 

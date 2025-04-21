@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace eItems.Catalog.Migrations
 {
     /// <inheritdoc />
-    public partial class initial01 : Migration
+    public partial class InitialMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -236,6 +236,7 @@ namespace eItems.Catalog.Migrations
                     ManufacturerID = table.Column<Guid>(type: "uuid", nullable: false),
                     CostCenterID = table.Column<Guid>(type: "uuid", nullable: false),
                     AssetCD = table.Column<string>(type: "text", nullable: false),
+                    AssetImage = table.Column<string>(type: "text", nullable: false),
                     SubNumber = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Active = table.Column<bool>(type: "boolean", nullable: false),

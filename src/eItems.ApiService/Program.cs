@@ -18,7 +18,7 @@ builder.Services.AddOpenApi();
 // Add Swagger/OpenAPI services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.AddNpgsqlDbContext<CatalogContext>(connectionName:"eItems") ;
+builder.AddNpgsqlDbContext<CatalogContext>(connectionName:"eItems" ) ;
 builder.Services.AddCatalogModule(builder.Configuration);
 var app = builder.Build();
 

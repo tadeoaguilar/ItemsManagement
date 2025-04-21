@@ -51,6 +51,10 @@ namespace eItems.Catalog.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("AssetImage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("CostCenterID")
                         .HasColumnType("uuid");
 
