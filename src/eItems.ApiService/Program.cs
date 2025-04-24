@@ -2,9 +2,10 @@ using System.Text.Json;
 using eItems.Catalog;
 using eItems.Catalog.Data;
 using eItems.Catalog.Data.Model;
-using eItems.Catalog.Data.Model.Assets;
+
 using Microsoft.EntityFrameworkCore;
 using eItems.Shared.Extensions;
+using eItems.Catalog.Apis;
 var builder = WebApplication.CreateBuilder(args);
 var catalogAssembly = typeof(CatalogModule).Assembly;
 // Add service defaults & Aspire client integrations.
@@ -48,7 +49,8 @@ app.MapGet("/api/tenants", async (CatalogContext dbContext) =>
     return Results.Ok(tenants);
 })
 .WithName("GetTenants");
-app.MapCatalogApi();
+app.MapAssetApi();
+app.MapCompanyApi();
 app.MapDefaultEndpoints();
 
 app.UseCatalogModule();
