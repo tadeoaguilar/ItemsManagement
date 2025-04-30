@@ -5,7 +5,7 @@
     "ManufacturerID": "ccc91b68-74ae-4731-a983-5139fd827f6a",
     "CostCenterID": "fd32eeb6-19bf-441c-b534-959bf01dc2ca",
     "AssetCD": "ASSET001",
-    "AssetImage": "https://www.pexels.com/photo/black-and-gray-abstract-painting-1640770/",
+    "AssetImage": "https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_1024,h_697/https://anepsa.com.mx/wp-content/uploads/2022/06/gestion-de-activos-1024x697.png",
     "SubNumber": 1,
     "Description": "First asset",
     "Active": true
@@ -17,7 +17,7 @@
     "ManufacturerID": "a94534ba-d389-437f-9156-71cd48643cd0",
     "CostCenterID": "b70bdd8b-9fef-4e3d-b92d-504203c51692",
     "AssetCD": "ASSET002",
-    "AssetImage": "https://www.pexels.com/photo/black-and-gray-abstract-painting-1640770/",
+    "AssetImage": "https://www.giitic.com/img/activos/activos_fijos_software_niif.png",
     "SubNumber": 1,
     "Description": "Second asset",
     "Active": false}

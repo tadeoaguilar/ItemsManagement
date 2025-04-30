@@ -19,10 +19,19 @@ public static class AssetApi
            .WithSummary("Create Asset")
            .WithDescription("Create a new asset");
 
-        app.MapGet("/assets", GetAssets)
-           .WithName("GetAssets")
-           .WithSummary("Get Assets")
-           .WithDescription("Get all assets");
+        app.MapGet("/assets", (int? pageSize, int? pageIndex, CatalogContext context) =>
+            {
+                var pagination = new PaginationRequest
+                {
+                    PageSize = pageSize ?? 10, // Default page size
+                    PageIndex = pageIndex ?? 0  // Default page index
+                };
+                return GetAssets(pagination, context);
+            })
+            .WithName("GetAssets")
+            .WithSummary("Get Assets")
+            .WithDescription("Get all assets with pagination");
+
 
         app.MapGet("/assets/{id}", GetAssetById)
            .WithName("GetAssetById")
@@ -63,12 +72,19 @@ public static class AssetApi
         return Results.Created($"/assets/{result.Entity.Id}", result.Entity.Id);
     }
 
-    private static async Task<IResult> GetAssets(CatalogContext context)
+    private static async Task<IResult> GetAssets(PaginationRequest pagination ,CatalogContext context)
     {
-        var assets = await context.Asset
+        var query = context.Asset
             .Include(a => a.Location)
             .Include(a => a.Manufacturer)
             .Include(a => a.CostCenter)
+            .AsQueryable();
+
+        var totalItems = await query.CountAsync();
+
+        var assets = await query
+            .Skip(pagination.PageIndex * pagination.PageSize)
+            .Take(pagination.PageSize)
             .Select(a => new AssetResponseDto
             {
                 Id = a.Id,
@@ -82,8 +98,15 @@ public static class AssetApi
                 CostCenterName = a.CostCenter.Description
             })
             .ToListAsync();
-        
-        return Results.Ok(assets);
+
+        var paginatedResult = new PaginatedItems<AssetResponseDto>(
+            pagination.PageIndex,
+            pagination.PageSize,
+            totalItems,
+            assets
+        );
+    
+        return Results.Ok(paginatedResult);
     }
 
     private static async Task<IResult> GetAssetById(Guid id, CatalogContext context)
