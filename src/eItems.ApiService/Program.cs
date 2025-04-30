@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using eItems.Identity;
+using eItems.Identity.Services;
 var builder = WebApplication.CreateBuilder(args);
 var catalogAssembly = typeof(CatalogModule).Assembly;
 // Add service defaults & Aspire client integrations.
@@ -20,11 +22,14 @@ builder.AddServiceDefaults();
 
 
 
-builder.AddNpgsqlDbContext<ApplicationDbContext>(connectionName:"eItems" ) ;
+builder.AddNpgsqlDbContext<IdentityAppDbContext>(connectionName:"eItems" ) ;
+
+// Register AuthenticationService
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 // Add Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddEntityFrameworkStores<IdentityAppDbContext>()
     .AddDefaultTokenProviders();
 
 // Add Authentication
@@ -67,7 +72,7 @@ builder.Services.AddCatalogModule(builder.Configuration);
 
 var app = builder.Build();
 
-
+app.UseIdentityModule();
 app.UseAuthentication();
 app.UseAuthorization();
 // Configure the HTTP request pipeline.

@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using eItems.Shared.Data;
+using eItems.Identity.Data;
 namespace eItems.Identity;
 public static class IdentityModule
 {
-public static IServiceCollection AddCatalogModule(this IServiceCollection services,
+public static IServiceCollection AddIdentityModule(this IServiceCollection services,
         IConfiguration configuration)
     {
         // Add services to the container.
@@ -30,7 +31,7 @@ public static IServiceCollection AddCatalogModule(this IServiceCollection servic
         return services;
     }
 
-    public static IApplicationBuilder UseCatalogModule(this IApplicationBuilder app)
+    public static IApplicationBuilder UseIdentityModule(this IApplicationBuilder app)
     {
         // Configure the HTTP request pipeline.
 
@@ -41,7 +42,7 @@ public static IServiceCollection AddCatalogModule(this IServiceCollection servic
         // 3. Use Data - Infrastructure services  
        // app.UseMigration<CatalogContext>();
     
-     app.UseMigration<IdentityDbContext>();
+     app.UseMigration<IdentityAppDbContext>();
    
         return app;
     }
