@@ -12,7 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../modules/eItems.Catalog/eItems.Catalog.csproj" />
     <ProjectReference Include="..\eItems.ApiService\eItems.ApiService.csproj" />
     <ProjectReference Include="..\eItems.Web\eItems.Web.csproj" />
   </ItemGroup>

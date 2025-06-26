@@ -2,7 +2,8 @@ using System.Text.Json;
 using eItems.Catalog;
 using eItems.Catalog.Data;
 using eItems.Catalog.Data.Model;
-
+using eItems.Catalog.Application.Extensions;
+using eItems.Catalog.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using eItems.Shared.Extensions;
@@ -55,6 +56,7 @@ builder.Services.AddAuthentication(options =>
 // Add Authorization services
 builder.Services.AddAuthorization();
 // Add services to the container.
+builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
 
 // Add MediatR services
@@ -67,6 +69,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.AddNpgsqlDbContext<CatalogContext>(connectionName:"eItems" ) ;
+
+// Add Clean Architecture layers
+builder.Services.AddCatalogApplication();
+builder.Services.AddCatalogInfrastructure();
 
 builder.Services.AddCatalogModule(builder.Configuration);
 
@@ -87,6 +93,9 @@ if (app.Environment.IsDevelopment())
 
 
 
+
+// Map controllers
+app.MapControllers();
 
 // Minimal API to fetch data from eHost.Catalog DB
 app.MapGet("/api/tenants", async (CatalogContext dbContext) =>

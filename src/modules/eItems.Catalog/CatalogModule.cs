@@ -3,7 +3,7 @@ using eItems.Shared.Data.Seed;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using  eItems.Shared.Data;
+using eItems.Shared.Data;
 using eItems.Catalog.Data.Seed;
 namespace eItems.Catalog;
 
@@ -16,9 +16,11 @@ public static IServiceCollection AddCatalogModule(this IServiceCollection servic
 
         // Api Endpoint services
 
-        // Application Use Case services       
+        // Application Use Case services
+        // Note: These will be registered in the API service project
 
         // Data - Infrastructure services
+        // Note: These will be registered in the API service project
 
        /* services.AddDbContext<CatalogContext>((sp, options) =>
         {

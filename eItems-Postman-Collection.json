@@ -1,0 +1,896 @@
+{
+  "info": {
+    "name": "eItems Management API - Clean Architecture",
+    "description": "Comprehensive API testing collection for eItems Management system with Clean Architecture implementation",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:7041",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "createdAssetId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "createdCompanyId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "sampleTenantId",
+      "value": "00000000-0000-0000-0000-000000000001",
+      "type": "string"
+    },
+    {
+      "key": "sampleCountryId",
+      "value": "00000000-0000-0000-0000-000000000001",
+      "type": "string"
+    },
+    {
+      "key": "sampleLocationId",
+      "value": "00000000-0000-0000-0000-000000000001",
+      "type": "string"
+    },
+    {
+      "key": "sampleManufacturerId",
+      "value": "00000000-0000-0000-0000-000000000001",
+      "type": "string"
+    },
+    {
+      "key": "sampleCostCenterId",
+      "value": "00000000-0000-0000-0000-000000000001",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Registration successful\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"Test123!@#\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            },
+            "description": "Register a new user account"
+          }
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login successful\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.token).to.exist;",
+                  "    pm.collectionVariables.set(\"authToken\", jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"Test123!@#\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Login and get JWT token"
+          }
+        }
+      ],
+      "description": "Authentication endpoints for user registration and login"
+    },
+    {
+      "name": "Clean Architecture - Assets API (MediatR)",
+      "item": [
+        {
+          "name": "Create Asset (CQRS)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Asset created successfully\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    const location = pm.response.headers.get('Location');",
+                  "    if (location) {",
+                  "        const assetId = location.split('/').pop();",
+                  "        pm.collectionVariables.set(\"createdAssetId\", assetId);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationID\": \"{{sampleLocationId}}\",\n  \"manufacturerID\": \"{{sampleManufacturerId}}\",\n  \"costCenterID\": \"{{sampleCostCenterId}}\",\n  \"assetCD\": \"LAPTOP001\",\n  \"assetImage\": \"laptop.jpg\",\n  \"subNumber\": 1,\n  \"description\": \"Dell Laptop for Development\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets"]
+            },
+            "description": "Create a new asset using Clean Architecture CQRS pattern with validation"
+          }
+        },
+        {
+          "name": "Get Assets Paginated (CQRS)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Assets retrieved successfully\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('data');",
+                  "    pm.expect(jsonData).to.have.property('pageIndex');",
+                  "    pm.expect(jsonData).to.have.property('pageSize');",
+                  "    pm.expect(jsonData).to.have.property('count');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets?pageSize=10&pageIndex=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets"],
+              "query": [
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "pageIndex",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get paginated list of assets using CQRS query pattern"
+          }
+        },
+        {
+          "name": "Get Asset by ID (CQRS)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Asset retrieved successfully\", function () {",
+                  "    if (pm.collectionVariables.get(\"createdAssetId\")) {",
+                  "        pm.response.to.have.status(200);",
+                  "        const jsonData = pm.response.json();",
+                  "        pm.expect(jsonData).to.have.property('id');",
+                  "        pm.expect(jsonData).to.have.property('assetCD');",
+                  "    } else {",
+                  "        pm.response.to.have.status(404);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/{{createdAssetId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets", "{{createdAssetId}}"]
+            },
+            "description": "Get specific asset by ID using CQRS query pattern with Result wrapper"
+          }
+        },
+        {
+          "name": "Update Asset (CQRS)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Asset updated successfully\", function () {",
+                  "    if (pm.collectionVariables.get(\"createdAssetId\")) {",
+                  "        pm.response.to.have.status(204);",
+                  "    } else {",
+                  "        pm.response.to.have.status(404);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationID\": \"{{sampleLocationId}}\",\n  \"manufacturerID\": \"{{sampleManufacturerId}}\",\n  \"costCenterID\": \"{{sampleCostCenterId}}\",\n  \"assetCD\": \"LAPTOP001-UPDATED\",\n  \"assetImage\": \"laptop-new.jpg\",\n  \"subNumber\": 1,\n  \"description\": \"Updated Dell Laptop for Development\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/{{createdAssetId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets", "{{createdAssetId}}"]
+            },
+            "description": "Update existing asset using CQRS command with validation"
+          }
+        },
+        {
+          "name": "Delete Asset (CQRS)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Asset deleted successfully\", function () {",
+                  "    if (pm.collectionVariables.get(\"createdAssetId\")) {",
+                  "        pm.response.to.have.status(204);",
+                  "    } else {",
+                  "        pm.response.to.have.status(404);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/{{createdAssetId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets", "{{createdAssetId}}"]
+            },
+            "description": "Delete asset using CQRS command pattern"
+          }
+        }
+      ],
+      "description": "Clean Architecture Asset API using MediatR, CQRS, and validation pipeline"
+    },
+    {
+      "name": "Legacy - Assets API (Minimal API)",
+      "item": [
+        {
+          "name": "Create Asset (Legacy)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Asset created successfully\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationID\": \"{{sampleLocationId}}\",\n  \"manufacturerID\": \"{{sampleManufacturerId}}\",\n  \"costCenterID\": \"{{sampleCostCenterId}}\",\n  \"assetCD\": \"LEGACY001\",\n  \"assetImage\": \"legacy.jpg\",\n  \"subNumber\": 1,\n  \"description\": \"Legacy API Test Asset\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["assets"]
+            },
+            "description": "Create asset using legacy Minimal API (direct DbContext)"
+          }
+        },
+        {
+          "name": "Get Assets (Legacy)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Assets retrieved successfully\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/assets?pageSize=5&pageIndex=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["assets"],
+              "query": [
+                {
+                  "key": "pageSize",
+                  "value": "5"
+                },
+                {
+                  "key": "pageIndex",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get assets using legacy Minimal API"
+          }
+        }
+      ],
+      "description": "Legacy Asset API using Minimal API and direct DbContext access"
+    },
+    {
+      "name": "Companies API",
+      "item": [
+        {
+          "name": "Create Company",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Company created successfully\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    const location = pm.response.headers.get('Location');",
+                  "    if (location) {",
+                  "        const companyId = location.split('/').pop();",
+                  "        pm.collectionVariables.set(\"createdCompanyId\", companyId);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantID\": \"{{sampleTenantId}}\",\n  \"countryID\": \"{{sampleCountryId}}\",\n  \"companyCD\": \"TESTCO001\",\n  \"description\": \"Test Company for API Testing\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/companies",
+              "host": ["{{baseUrl}}"],
+              "path": ["companies"]
+            },
+            "description": "Create a new company"
+          }
+        },
+        {
+          "name": "Get Companies",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Companies retrieved successfully\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/companies",
+              "host": ["{{baseUrl}}"],
+              "path": ["companies"]
+            },
+            "description": "Get all companies"
+          }
+        },
+        {
+          "name": "Get Company by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Company retrieved successfully\", function () {",
+                  "    if (pm.collectionVariables.get(\"createdCompanyId\")) {",
+                  "        pm.response.to.have.status(200);",
+                  "    } else {",
+                  "        pm.response.to.have.status(404);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/companies/{{createdCompanyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["companies", "{{createdCompanyId}}"]
+            },
+            "description": "Get company by ID"
+          }
+        },
+        {
+          "name": "Update Company",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Company updated successfully\", function () {",
+                  "    if (pm.collectionVariables.get(\"createdCompanyId\")) {",
+                  "        pm.response.to.have.status(204);",
+                  "    } else {",
+                  "        pm.response.to.have.status(404);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantID\": \"{{sampleTenantId}}\",\n  \"countryID\": \"{{sampleCountryId}}\",\n  \"companyCD\": \"TESTCO001-UPDATED\",\n  \"description\": \"Updated Test Company\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/companies/{{createdCompanyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["companies", "{{createdCompanyId}}"]
+            },
+            "description": "Update existing company"
+          }
+        },
+        {
+          "name": "Delete Company",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Company deleted successfully\", function () {",
+                  "    if (pm.collectionVariables.get(\"createdCompanyId\")) {",
+                  "        pm.response.to.have.status(204);",
+                  "    } else {",
+                  "        pm.response.to.have.status(404);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/companies/{{createdCompanyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["companies", "{{createdCompanyId}}"]
+            },
+            "description": "Delete company"
+          }
+        }
+      ],
+      "description": "Company management API endpoints"
+    },
+    {
+      "name": "Tenants API",
+      "item": [
+        {
+          "name": "Get Tenants",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Tenants retrieved successfully\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.be.an('array');",
+                  "    if (jsonData.length > 0) {",
+                  "        pm.collectionVariables.set(\"sampleTenantId\", jsonData[0].id);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants"]
+            },
+            "description": "Get all tenants (used for setting up test data)"
+          }
+        }
+      ],
+      "description": "Tenant management endpoints"
+    },
+    {
+      "name": "Validation Tests",
+      "item": [
+        {
+          "name": "Asset Validation - Missing Required Fields",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validation errors returned\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message', 'Validation failed');",
+                  "    pm.expect(jsonData).to.have.property('errors');",
+                  "    pm.expect(jsonData.errors).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assetCD\": \"\",\n  \"subNumber\": 0,\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets"]
+            },
+            "description": "Test validation pipeline with invalid data"
+          }
+        },
+        {
+          "name": "Asset Validation - Field Length Limits",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validation errors for field length\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message', 'Validation failed');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationID\": \"{{sampleLocationId}}\",\n  \"manufacturerID\": \"{{sampleManufacturerId}}\",\n  \"costCenterID\": \"{{sampleCostCenterId}}\",\n  \"assetCD\": \"This is a very long asset code that exceeds the maximum allowed length of 50 characters\",\n  \"assetImage\": \"This is a very long image path that exceeds the maximum allowed length of 200 characters - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris\",\n  \"subNumber\": 1,\n  \"description\": \"This is a very long description that exceeds the maximum allowed length of 500 characters - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets"]
+            },
+            "description": "Test field length validation limits"
+          }
+        }
+      ],
+      "description": "Test the FluentValidation pipeline and error handling"
+    },
+    {
+      "name": "Error Handling Tests",
+      "item": [
+        {
+          "name": "Get Non-Existent Asset",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Not found error handled correctly\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/00000000-0000-0000-0000-000000000000",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets", "00000000-0000-0000-0000-000000000000"]
+            },
+            "description": "Test error handling for non-existent resources"
+          }
+        },
+        {
+          "name": "Update Non-Existent Asset",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Not found error handled correctly\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationID\": \"{{sampleLocationId}}\",\n  \"manufacturerID\": \"{{sampleManufacturerId}}\",\n  \"costCenterID\": \"{{sampleCostCenterId}}\",\n  \"assetCD\": \"TEST001\",\n  \"assetImage\": \"test.jpg\",\n  \"subNumber\": 1,\n  \"description\": \"Test Asset\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/00000000-0000-0000-0000-000000000000",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets", "00000000-0000-0000-0000-000000000000"]
+            },
+            "description": "Test error handling for updating non-existent resource"
+          }
+        },
+        {
+          "name": "Delete Non-Existent Asset",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Not found error handled correctly\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/00000000-0000-0000-0000-000000000000",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets", "00000000-0000-0000-0000-000000000000"]
+            },
+            "description": "Test error handling for deleting non-existent resource"
+          }
+        }
+      ],
+      "description": "Test error handling and HTTP status code responses"
+    },
+    {
+      "name": "Performance & Monitoring",
+      "item": [
+        {
+          "name": "Health Check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"API is healthy\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Check API health status"
+          }
+        },
+        {
+          "name": "Load Test - Multiple Asset Requests",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(1000);",
+                  "});",
+                  "",
+                  "pm.test(\"API handles load well\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets?pageSize=50&pageIndex=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets"],
+              "query": [
+                {
+                  "key": "pageSize",
+                  "value": "50"
+                },
+                {
+                  "key": "pageIndex",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Test API performance with larger page size"
+          }
+        }
+      ],
+      "description": "Performance monitoring and health check endpoints"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set base URL if not already set",
+          "if (!pm.collectionVariables.get('baseUrl')) {",
+          "    pm.collectionVariables.set('baseUrl', 'https://localhost:7041');",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global test to ensure response time is reasonable",
+          "pm.test('Response time is reasonable', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});",
+          "",
+          "// Log request info for debugging",
+          "console.log(`${pm.info.requestName}: ${pm.response.status} - ${pm.response.responseTime}ms`);"
+        ]
+      }
+    }
+  ]
+}

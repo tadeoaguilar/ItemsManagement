@@ -21,17 +21,15 @@ public static class AssetApi
 
         app.MapGet("/assets", (int? pageSize, int? pageIndex, CatalogContext context) =>
             {
-                var pagination = new PaginationRequest
-                {
-                    PageSize = pageSize ?? 10, // Default page size
-                    PageIndex = pageIndex ?? 0  // Default page index
-                };
+                var pagination = new PaginationRequest(
+                    pageSize ?? 10,
+                    pageIndex ?? 0
+                );
                 return GetAssets(pagination, context);
             })
             .WithName("GetAssets")
             .WithSummary("Get Assets")
             .WithDescription("Get all assets with pagination");
-
 
         app.MapGet("/assets/{id}", GetAssetById)
            .WithName("GetAssetById")
@@ -72,7 +70,7 @@ public static class AssetApi
         return Results.Created($"/assets/{result.Entity.Id}", result.Entity.Id);
     }
 
-    private static async Task<IResult> GetAssets(PaginationRequest pagination ,CatalogContext context)
+    private static async Task<IResult> GetAssets(PaginationRequest pagination, CatalogContext context)
     {
         var query = context.Asset
             .Include(a => a.Location)

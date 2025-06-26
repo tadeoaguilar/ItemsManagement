@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="../modules/eItems.Catalog/eItems.Catalog.csproj" />
+    <ProjectReference Include="../modules/eItems.Catalog.Application/eItems.Catalog.Application.csproj" />
+    <ProjectReference Include="../modules/eItems.Catalog.Infrastructure/eItems.Catalog.Infrastructure.csproj" />
     <ProjectReference Include="../modules/eItems.Identity/eItems.Identity.csproj" />
     <ProjectReference Include="..\eItems.ServiceDefaults\eItems.ServiceDefaults.csproj" />
   </ItemGroup>
